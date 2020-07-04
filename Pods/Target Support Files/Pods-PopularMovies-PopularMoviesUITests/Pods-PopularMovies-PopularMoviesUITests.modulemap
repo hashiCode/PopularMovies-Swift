@@ -1,0 +1,6 @@
+framework module Pods_PopularMovies_PopularMoviesUITests {
+  umbrella header "Pods-PopularMovies-PopularMoviesUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
