@@ -26,7 +26,6 @@ class MoviesTabBarViewController: UITabBarController {
         
         let favoriteMoviewViewController = FavoriteMoviesViewController()
         favoriteMoviewViewController.tabBarItem = UITabBarItem(title: LocalizableConstants.kFavorites.localized(), image: UIImage(systemName: "star"), selectedImage: UIImage(systemName: "star.fill"))
-        
         viewControllers = [popularMoviesViewController, favoriteMoviewViewController]
     }
 

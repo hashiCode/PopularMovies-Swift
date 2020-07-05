@@ -8,11 +8,15 @@
 import UIKit
 
 class PopularMoviesViewController: UIViewController {
+    
+    private var popularMoviesView = PopularMoviesView(frame: .zero)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
 
-        // Do any additional setup after loading the view.
+    override func loadView() {
+        self.view = popularMoviesView
     }
     
 

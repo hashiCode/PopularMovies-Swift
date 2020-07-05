@@ -10,6 +10,9 @@ target 'PopularMovies' do
   target 'PopularMoviesTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'Quick'
+    pod 'Nimble'
+    pod 'Nimble-Snapshots'
   end
 
   target 'PopularMoviesUITests' do

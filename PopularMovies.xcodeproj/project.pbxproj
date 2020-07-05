@@ -3,13 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		46A222148317341B8406B666 /* Pods_PopularMoviesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1A7972594F1CD865490FC77 /* Pods_PopularMoviesTests.framework */; };
 		5BB82A3E09A9C356FF154E1D /* Pods_PopularMovies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14E7545739C1E6FBE68EC0A /* Pods_PopularMovies.framework */; };
 		7748B79ED532FA5C89DAAEEB /* Pods_PopularMovies_PopularMoviesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 919920761BC526A3E86E87C4 /* Pods_PopularMovies_PopularMoviesUITests.framework */; };
+		FF0DAB9924B221BF00E8BB70 /* PopularMoviesViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0DAB9824B221BF00E8BB70 /* PopularMoviesViewTest.swift */; };
+		FFDFEF2B24B22AF3007229C9 /* PopularMoviesViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDFEF2A24B22AF3007229C9 /* PopularMoviesViewControllerTest.swift */; };
 		FFED2F5324B133DB009A61B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2F5224B133DB009A61B7 /* AppDelegate.swift */; };
 		FFED2F5524B133DB009A61B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2F5424B133DB009A61B7 /* SceneDelegate.swift */; };
 		FFED2F5D24B133DB009A61B7 /* PopularMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FFED2F5B24B133DB009A61B7 /* PopularMovies.xcdatamodeld */; };
@@ -27,6 +29,7 @@
 		FFED2FA924B14CBA009A61B7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2FA824B14CBA009A61B7 /* Constants.swift */; };
 		FFED2FAD24B14D32009A61B7 /* MoviesCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2FAC24B14D32009A61B7 /* MoviesCoordinatorTest.swift */; };
 		FFED2FB024B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2FAF24B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift */; };
+		FFED2FB224B16138009A61B7 /* PopularMoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2FB124B16138009A61B7 /* PopularMoviesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,8 @@
 		B14E7545739C1E6FBE68EC0A /* Pods_PopularMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PopularMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1A7972594F1CD865490FC77 /* Pods_PopularMoviesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PopularMoviesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6DB02723D31B7E6FF69D744 /* Pods-PopularMoviesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopularMoviesTests.release.xcconfig"; path = "Target Support Files/Pods-PopularMoviesTests/Pods-PopularMoviesTests.release.xcconfig"; sourceTree = "<group>"; };
+		FF0DAB9824B221BF00E8BB70 /* PopularMoviesViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesViewTest.swift; sourceTree = "<group>"; };
+		FFDFEF2A24B22AF3007229C9 /* PopularMoviesViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesViewControllerTest.swift; sourceTree = "<group>"; };
 		FFED2F4F24B133DB009A61B7 /* PopularMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopularMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFED2F5224B133DB009A61B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFED2F5424B133DB009A61B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +85,7 @@
 		FFED2FA824B14CBA009A61B7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FFED2FAC24B14D32009A61B7 /* MoviesCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCoordinatorTest.swift; sourceTree = "<group>"; };
 		FFED2FAF24B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTabBarViewControllerTest.swift; sourceTree = "<group>"; };
+		FFED2FB124B16138009A61B7 /* PopularMoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		FF0DAB9624B2217E00E8BB70 /* Popular */ = {
+			isa = PBXGroup;
+			children = (
+				FF0DAB9724B221A600E8BB70 /* View */,
+			);
+			path = Popular;
+			sourceTree = "<group>";
+		};
+		FF0DAB9724B221A600E8BB70 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FF0DAB9824B221BF00E8BB70 /* PopularMoviesViewTest.swift */,
+				FFDFEF2A24B22AF3007229C9 /* PopularMoviesViewControllerTest.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		FFED2F4624B133DB009A61B7 = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +192,7 @@
 		FFED2F6B24B133DD009A61B7 /* PopularMoviesTests */ = {
 			isa = PBXGroup;
 			children = (
+				FF0DAB9624B2217E00E8BB70 /* Popular */,
 				FFED2FAA24B14D11009A61B7 /* Movies */,
 				FFED2F6E24B133DD009A61B7 /* Info.plist */,
 			);
@@ -254,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				FFED2F8D24B13898009A61B7 /* PopularMoviesViewController.swift */,
+				FFED2FB124B16138009A61B7 /* PopularMoviesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -353,6 +378,7 @@
 				FFED2F6424B133DD009A61B7 /* Sources */,
 				FFED2F6524B133DD009A61B7 /* Frameworks */,
 				FFED2F6624B133DD009A61B7 /* Resources */,
+				A30DB7782B36FD12637700BA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -454,6 +480,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		A30DB7782B36FD12637700BA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PopularMoviesTests/Pods-PopularMoviesTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PopularMoviesTests/Pods-PopularMoviesTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PopularMoviesTests/Pods-PopularMoviesTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C5722BDB5CC7D9A90EF68256 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -538,6 +581,7 @@
 				FFED2F9124B138BB009A61B7 /* FavoriteMoviesViewController.swift in Sources */,
 				FFED2F5524B133DB009A61B7 /* SceneDelegate.swift in Sources */,
 				FFED2FA224B1453E009A61B7 /* LocalizableConstants.swift in Sources */,
+				FFED2FB224B16138009A61B7 /* PopularMoviesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,7 +590,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFED2FB024B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift in Sources */,
+				FFDFEF2B24B22AF3007229C9 /* PopularMoviesViewControllerTest.swift in Sources */,
 				FFED2FAD24B14D32009A61B7 /* MoviesCoordinatorTest.swift in Sources */,
+				FF0DAB9924B221BF00E8BB70 /* PopularMoviesViewTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
