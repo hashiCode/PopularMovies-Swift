@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  PopularMovies
+
+  Created by Scott Takahashi on 04/07/20.
+  
+*/
+
+"popular" = "Popular";
+"favorites" = "Favorites";
