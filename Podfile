@@ -6,7 +6,8 @@ target 'PopularMovies' do
   use_frameworks!
 
   # Pods for PopularMovies
-
+  pod 'Nuke'
+  
   target 'PopularMoviesTests' do
     inherit! :search_paths
     # Pods for testing

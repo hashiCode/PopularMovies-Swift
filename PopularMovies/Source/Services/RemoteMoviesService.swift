@@ -24,7 +24,8 @@ class RemoteMoviesService: MoviesService {
             guard self != nil else { return }
             switch result {
             case .success(let data):
-                completion(self!.mapMovies(data: data))
+                let result = self?.mapMovies(data: data)
+                completion(result!)
                 break
             case .failure(let error):
                 completion(.failure(error))

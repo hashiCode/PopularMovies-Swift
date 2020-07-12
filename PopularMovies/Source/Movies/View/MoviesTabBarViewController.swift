@@ -20,7 +20,10 @@ class MoviesTabBarViewController: UITabBarController {
     }
     
     private func setupTabs() {
-        let popularMoviesViewController = PopularMoviesViewController()
+        let moviesApiProvider = MoviesHTTPProvider(session: URLSession.shared)
+        let moviesService = RemoteMoviesService(provider: moviesApiProvider)
+        
+        let popularMoviesViewController = PopularMoviesViewController(viewModel: PopularMoviesViewModel(service: moviesService), posterFetchService: NukePosterFetchService())
         popularMoviesViewController.tabBarItem = UITabBarItem(title: LocalizableConstants.kPopular.localized(), image: UIImage(systemName: "film"), selectedImage: UIImage(systemName: "film.fill"))
         
         

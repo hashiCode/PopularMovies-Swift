@@ -22,5 +22,8 @@ struct Constants {
         static let kApiKey = "api_key"
         static let kPage = "page"
         static let kLanguage = "language"
+        
+        static let kBasePosterURL = "image.tmdb.org"
+        static let kBasePosterPath = "/t/p/"
     }
 }
