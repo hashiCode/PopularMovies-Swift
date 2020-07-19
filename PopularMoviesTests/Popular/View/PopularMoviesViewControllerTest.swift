@@ -56,6 +56,9 @@ class PopularMoviesViewControllerTest: QuickSpec {
                     expect(collectionView.dataSource).to(beAnInstanceOf(PopularMoviesViewController.self))
                     expect(collectionView.delegate).to(beAnInstanceOf(PopularMoviesViewController.self))
                     expect(collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionViewCell", for: IndexPath(row: 0, section: 0))).notTo(beNil())
+                    expect(collectionView.refreshControl).notTo(beNil())
+                    expect(collectionView.refreshControl?.actions(forTarget: sut.self, forControlEvent: .valueChanged)?.count).to(equal(1))
+                    expect(collectionView.refreshControl?.actions(forTarget: sut.self, forControlEvent: .valueChanged)![0]).to(equal("refreshMovies"))
                 }
                 
             }
@@ -68,7 +71,7 @@ class PopularMoviesViewControllerTest: QuickSpec {
                 }
                 
                 it("should setup cell correctly") {
-                    let cell = sut.collectionView(sut.popularMoviesView.moviesCollection, cellForItemAt: IndexPath(row: 0, section: 0))
+                    let _ = sut.collectionView(sut.popularMoviesView.moviesCollection, cellForItemAt: IndexPath(row: 0, section: 0))
                     expect(posterService.fetchMovies.isEmpty).to(beFalse())
                 }
             }

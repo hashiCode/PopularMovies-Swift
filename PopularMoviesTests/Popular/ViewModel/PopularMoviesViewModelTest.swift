@@ -17,6 +17,7 @@ class PopularMoviesViewModelTest: QuickSpec {
     override func spec() {
         var sut: PopularMoviesViewModel!
         var service: MoviesServiceMock!
+        var anyCancelable = Set<AnyCancellable>()
         
         describe("PopularMoviesViewModel") {
             
@@ -28,11 +29,10 @@ class PopularMoviesViewModelTest: QuickSpec {
             context("getNextPopularMovies should behave correctly") {
                 
                 var loadingBecomeTrue = false
-                var anyCancelable = Set<AnyCancellable>()
                 
                 beforeEach {
                     loadingBecomeTrue = false
-                    sut.$loading.sink { (loading) in
+                    sut.loadingPublisher.sink { (loading) in
                         if (!loadingBecomeTrue && loading) {
                             loadingBecomeTrue = true
                         }
@@ -45,10 +45,11 @@ class PopularMoviesViewModelTest: QuickSpec {
                     expect(sut.loading).toEventually(beFalse())
                     expect(sut.movies.isEmpty).toEventually(beFalse())
                     expect(sut.error).toEventually(beNil())
+                    expect(sut.page).toEventually(equal(2))
+                    expect(sut.hasEnded).toEventually(beFalse())
                 }
                 
                 it("when returning empty movies") {
-                    sut.getNextPopularMovies()
                     let moviesSize = sut.movies.count
                     service.shouldReturnEmmpty = true
                     loadingBecomeTrue = false
@@ -57,12 +58,8 @@ class PopularMoviesViewModelTest: QuickSpec {
                     expect(loadingBecomeTrue).toEventually(beTrue())
                     expect(sut.movies.count).toEventually(equal(moviesSize))
                     expect(sut.error).toEventually(beNil())
-                    
-                    loadingBecomeTrue = false
-                    sut.getNextPopularMovies()
-                    expect(loadingBecomeTrue).toEventually(beFalse())
-                    expect(sut.movies.count).toEventually(equal(moviesSize))
-                    expect(sut.error).toEventually(beNil())
+                    expect(sut.page).toEventually(equal(1))
+                    expect(sut.hasEnded).toEventually(beTrue())
                 }
                 
                 it("when returning failure") {
@@ -72,9 +69,40 @@ class PopularMoviesViewModelTest: QuickSpec {
                     expect(sut.loading).toEventually(beFalse())
                     expect(sut.movies.isEmpty).toEventually(beTrue())
                     expect(sut.error).toNotEventually(beNil())
+                    expect(sut.page).toEventually(equal(1))
+                    expect(sut.hasEnded).toEventually(beFalse())
                 }
             }
             
+            context("refreshMovies should behave correctly") {
+
+                var hasEndedReseted = false
+                var moviesReseted = false
+                
+                beforeEach {
+                    sut.hasEndedPublisher.sink { (hasEnded) in
+                        if(!hasEnded) {
+                            hasEndedReseted = true
+                        }
+                    }.store(in: &anyCancelable)
+                    
+                    sut.moviesPublisher.sink { (movies) in
+                        if(movies.isEmpty) {
+                            moviesReseted = true
+                        }
+                    }.store(in: &anyCancelable)
+                }
+                
+                it("should reset page and movies") {
+                    sut.getNextPopularMovies()
+
+                    sut.refreshMovies()
+                    expect(sut.page).toEventually(equal(2))
+                    expect(hasEndedReseted).toEventually(beTrue())
+                    expect(moviesReseted).toEventually(beTrue())
+                }
+                
+            }
             
         }
             

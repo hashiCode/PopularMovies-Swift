@@ -8,25 +8,51 @@
 import Foundation
 import Combine
 
-class PopularMoviesViewModel: ObservableObject {
+protocol PopularMoviesViewModelContract {
+    
+    var movies: [Movie] { get }
+    var moviesPublisher: Published<[Movie]>.Publisher { get }
+    
+    var loading: Bool { get }
+    var loadingPublisher: Published<Bool>.Publisher { get }
+    
+    var error: Error? { get }
+    var errorPublisher: Published<Error?>.Publisher { get }
+    
+    var hasEnded: Bool { get }
+    var hasEndedPublisher: Published<Bool>.Publisher { get }
+    
+    var page: Int { get }
+    
+    func getNextPopularMovies()
+    
+    func refreshMovies()
+    
+}
+
+class PopularMoviesViewModel: PopularMoviesViewModelContract, ObservableObject {
     
     private let movieService: MoviesService
     
-    private var page = 1
+    private(set) var page = 1
     
     @Published private(set) var movies = [Movie]()
     @Published private(set) var loading = false
     @Published private(set) var error: Error?
     @Published private(set) var hasEnded = false
     
+    var moviesPublisher: Published<[Movie]>.Publisher { _movies.projectedValue }
+    var loadingPublisher: Published<Bool>.Publisher { _loading.projectedValue }
+    var errorPublisher: Published<Error?>.Publisher { _error.projectedValue }
+    var hasEndedPublisher: Published<Bool>.Publisher { _hasEnded.projectedValue }
+    
     
     init(service: MoviesService) {
         self.movieService = service
     }
     
-    
     func getNextPopularMovies(){
-        if (!hasEnded) {
+        if (!self.hasEnded) {
             self.loading = true
             self.movieService.getPopularMovies(page: page) { [weak self] (result) in
                 guard self != nil else {return}
@@ -45,6 +71,13 @@ class PopularMoviesViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func refreshMovies() {
+        self.page = 1
+        self.movies = []
+        self.hasEnded = false
+        self.getNextPopularMovies()
     }
 
 }

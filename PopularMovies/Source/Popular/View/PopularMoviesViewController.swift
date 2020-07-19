@@ -13,14 +13,14 @@ class PopularMoviesViewController: UIViewController {
     private let movieCellIdentifier = "MovieCollectionViewCell"
     
     let popularMoviesView = PopularMoviesView(frame: .zero)
-    private let viewModel: PopularMoviesViewModel
+    private let viewModel: PopularMoviesViewModelContract
     private let posterFetchService: PosterFetchService
     private var anyCancelable = Set<AnyCancellable>()
     private let spinner = SpinnerViewController()
     
     
     
-    init(viewModel: PopularMoviesViewModel, posterFetchService: PosterFetchService) {
+    init(viewModel: PopularMoviesViewModelContract, posterFetchService: PosterFetchService) {
         self.viewModel = viewModel
         self.posterFetchService = posterFetchService
         super.init(nibName: nil, bundle: nil)
@@ -77,21 +77,37 @@ extension PopularMoviesViewController: UICollectionViewDelegateFlowLayout {
 extension PopularMoviesViewController {
     
     private func configureCollectionView() {
-        self.popularMoviesView.moviesCollection.register(UINib(nibName: String(describing: MovieCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: movieCellIdentifier)
-        self.popularMoviesView.moviesCollection.dataSource = self
-        self.popularMoviesView.moviesCollection.delegate = self
+        guard let collectionView = self.popularMoviesView.moviesCollection else {
+            fatalError("Should have collectionView")
+        }
+        collectionView.register(UINib(nibName: String(describing: MovieCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: movieCellIdentifier)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.refreshControl = self.configureUIRefreshControl()
+    }
+    
+    private func configureUIRefreshControl() -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshMovies), for: .valueChanged)
+        
+        return refreshControl
+    }
+    
+    @objc private func refreshMovies () {
+        self.viewModel.refreshMovies()
     }
     
     private func setupSubscribers() {
         
-        self.viewModel.$movies
+        self.viewModel.moviesPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (_) in
                 guard self != nil else { return }
                 self?.popularMoviesView.moviesCollection.reloadData()
+                self?.popularMoviesView.moviesCollection.refreshControl?.endRefreshing()
         }.store(in: &anyCancelable)
         
-        self.viewModel.$loading
+        self.viewModel.loadingPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (loading) in
                 guard self != nil else { return }
