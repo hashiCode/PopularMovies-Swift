@@ -98,25 +98,34 @@ extension PopularMoviesViewController {
     }
     
     private func setupSubscribers() {
-        
         self.viewModel.moviesPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (_) in
-                guard self != nil else { return }
-                self?.popularMoviesView.moviesCollection.reloadData()
-                self?.popularMoviesView.moviesCollection.refreshControl?.endRefreshing()
+                guard let self = self else { return }
+                self.popularMoviesView.moviesCollection.reloadData()
+                self.popularMoviesView.moviesCollection.refreshControl?.endRefreshing()
         }.store(in: &anyCancelable)
         
         self.viewModel.loadingPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] (loading) in
-                guard self != nil else { return }
+                guard let self = self else { return }
                 if loading {
-                    self?.showSpinner()
+                    self.showSpinner()
                 } else {
-                    self?.removeSpinner()
+                    self.removeSpinner()
                 }
         }.store(in: &anyCancelable)
+        
+        self.viewModel.errorPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] (error) in
+                if let _ = error {
+                    guard let self = self else { return }
+                    self.showError()
+                }
+            }
+        .store(in: &anyCancelable)
         
     }
     
@@ -131,6 +140,21 @@ extension PopularMoviesViewController {
         self.spinner.willMove(toParent: nil)
         self.spinner.view.removeFromSuperview()
         self.spinner.removeFromParent()
+    }
+    
+    private func showError() {
+        let alert = self.createAlert()
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func createAlert() -> UIAlertController {
+        let alert = UIAlertController(title: LocalizableConstants.kAlertTitle.localized(), message: LocalizableConstants.kAlertMessage.localized(), preferredStyle: .alert)
+        let retryAction = UIAlertAction(title: LocalizableConstants.kAlertTryAgainAction.localized(), style: .default) { [weak self] (action) in
+            guard let self = self else { return }
+            self.viewModel.getNextPopularMovies()
+        }
+        alert.addAction(retryAction)
+        return alert
     }
 }
 

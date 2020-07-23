@@ -10,5 +10,8 @@ struct LocalizableConstants {
     
     static let kPopular = "popular"
     static let kFavorites = "favorites"
+    static let kAlertTitle = "alert.error.title"
+    static let kAlertMessage = "alert.error.message"
+    static let kAlertTryAgainAction = "alert.error.action.tryAgain"
 
 }

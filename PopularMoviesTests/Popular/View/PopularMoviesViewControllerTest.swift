@@ -89,6 +89,18 @@ class PopularMoviesViewControllerTest: QuickSpec {
                     expect(viewModel.getNextPopularMoviesCountCalls).to(equal(2))
                 }
             }
+            
+            context("Error") {
+                
+                it("should show alert when viewmodel return error") {
+                    movieService.shouldReturnMovies = false
+                    viewModel.getNextPopularMovies()
+                    
+                    expect(sut.presentedViewController).toEventually(beAKindOf(UIAlertController.self))
+                    
+                }
+                
+            }
         }
     }
 

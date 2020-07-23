@@ -8,3 +8,7 @@
 
 "popular" = "Populares";
 "favorites" = "Favoritos";
+
+"alert.error.title" = "Erro";
+"alert.error.message" = "Um erro ocorreu ao recuperar a lista de filmes";
+"alert.error.action.tryAgain" = "Tentar novamente";

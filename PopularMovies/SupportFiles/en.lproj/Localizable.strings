@@ -8,3 +8,7 @@
 
 "popular" = "Popular";
 "favorites" = "Favorites";
+
+"alert.error.title" = "Error";
+"alert.error.message" = "An error ocurred while fetching movies";
+"alert.error.action.tryAgain" = "Try again";
