@@ -33,8 +33,9 @@ class PopularMoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureCollectionView()
+        self.configureSearchBar()
         self.setupSubscribers()
-        self.viewModel.getNextPopularMovies()
+        self.viewModel.getNextMovies()
     }
 
     override func loadView() {
@@ -67,10 +68,31 @@ extension PopularMoviesViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == self.viewModel.movies.count - 1 {
-            self.viewModel.getNextPopularMovies()
+            self.viewModel.getNextMovies()
         }
     }
     
+}
+
+extension PopularMoviesViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let filter = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if filter.isEmpty {
+            self.viewModel.clearSeach()
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let searchText = searchBar.text {
+            let movieName = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !movieName.isEmpty {
+                self.viewModel.search(movieName: movieName)
+            }
+        }
+        
+        searchBar.resignFirstResponder()
+    }
 }
 
 // MARK: private methods
@@ -151,10 +173,18 @@ extension PopularMoviesViewController {
         let alert = UIAlertController(title: LocalizableConstants.kAlertTitle.localized(), message: LocalizableConstants.kAlertMessage.localized(), preferredStyle: .alert)
         let retryAction = UIAlertAction(title: LocalizableConstants.kAlertTryAgainAction.localized(), style: .default) { [weak self] (action) in
             guard let self = self else { return }
-            self.viewModel.getNextPopularMovies()
+            self.viewModel.getNextMovies()
         }
         alert.addAction(retryAction)
         return alert
+    }
+    
+    private func configureSearchBar() {
+        guard let searchBar = self.popularMoviesView.searchBar else {
+            fatalError("Should have collectionView")
+        }
+        searchBar.delegate = self
+        searchBar.returnKeyType = UIReturnKeyType.done
     }
 }
 

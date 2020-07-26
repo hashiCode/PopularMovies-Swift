@@ -13,10 +13,20 @@ import Nimble_Snapshots
 class PopularMoviesViewModelMock: PopularMoviesViewModel {
     
     var getNextPopularMoviesCountCalls = 0
+    var searchCalled = false
+    var clearSearchCalled = false
     
     override func getNextPopularMovies() {
         self.getNextPopularMoviesCountCalls += 1
         super.getNextPopularMovies()
+    }
+    
+    override func search(movieName: String) {
+        self.searchCalled = true
+    }
+    
+    override func clearSeach() {
+        self.clearSearchCalled = true
     }
 }
 
@@ -101,6 +111,47 @@ class PopularMoviesViewControllerTest: QuickSpec {
                 }
                 
             }
+            
+            context("search") {
+                
+                it("should have setup searchbar correctly") {
+                    let searchbar = sut.popularMoviesView.searchBar
+                    
+                    expect(searchbar?.delegate).to(beAKindOf(PopularMoviesViewController.self))
+                    expect(searchbar?.returnKeyType).to(equal(.done))
+                }
+                
+                context("searchbar delegate") {
+                    
+                    it("should call viewModel#search when searchText is not empty") {
+                        sut.searchBar(sut.popularMoviesView.searchBar, textDidChange: "any movie")
+                        expect(viewModel.clearSearchCalled).to(beFalse())
+                    }
+                    
+                    it("should call viewModel#clearSearch when searchText is empty") {
+                        sut.searchBar(sut.popularMoviesView.searchBar, textDidChange: "")
+                        expect(viewModel.clearSearchCalled).to(beTrue())
+                    }
+                    
+                    it("should behave correctly when search button is clicked and search bar is not empty") {
+                        sut.popularMoviesView.searchBar.text = "any movie"
+                        sut.searchBarSearchButtonClicked(sut.popularMoviesView.searchBar)
+                        
+                        expect(viewModel.searchCalled).to(beTrue())
+                        expect(sut.popularMoviesView.searchBar.isFirstResponder).to(beFalse())
+                    }
+                    
+                    it("should behave correctly when search button is clicked and search bar is empty") {
+                        sut.searchBarSearchButtonClicked(sut.popularMoviesView.searchBar)
+                        
+                        expect(viewModel.searchCalled).to(beFalse())
+                        expect(sut.popularMoviesView.searchBar.isFirstResponder).to(beFalse())
+                    }
+                    
+                }
+                
+            }
+            
         }
     }
 

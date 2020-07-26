@@ -11,13 +11,21 @@ import Foundation
 class MoviesServiceMock: MoviesService {
     
     enum CustomError: Error {
-        case genericError
+        case genericErrorApi
     }
-    
+
     var shouldReturnMovies = true
     var shouldReturnEmmpty = false
-    
+
     func getPopularMovies(page: Int, completion: @escaping (MoviesService.Result) -> Void) {
+        handleCompletition(completion)
+    }
+
+    func searchMovies(page: Int, movieName: String, completion: @escaping (MoviesService.Result) -> Void) {
+        handleCompletition(completion)
+    }
+    
+    private func handleCompletition(_ completion: @escaping ((MoviesService.Result) -> Void)) {
         if shouldReturnMovies {
             if shouldReturnEmmpty {
                 completion(.success([]))
@@ -26,10 +34,8 @@ class MoviesServiceMock: MoviesService {
                 completion(.success([movie]))
             }
         } else {
-            completion(.failure(CustomError.genericError))
+            completion(.failure(CustomError.genericErrorApi))
         }
     }
-    
-    
 
 }

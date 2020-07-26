@@ -11,5 +11,7 @@ protocol MoviesService {
     typealias Result = Swift.Result<[Movie], Error>
     
     func getPopularMovies(page: Int, completion: @escaping (Result) -> Void)
+    
+    func searchMovies(page: Int, movieName: String, completion: @escaping (Result) -> Void)
 
 }

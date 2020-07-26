@@ -8,8 +8,14 @@
 import UIKit
 import Nuke
 
-class NukePosterFetchService: PosterFetchService {
+private struct Api {
+    static let kScheme = "https"
     
+    static let kBasePosterURL = "image.tmdb.org"
+    static let kBasePosterPath = "/t/p/"
+}
+
+class NukePosterFetchService: PosterFetchService {
     
     func fetchPoster(imageView: UIImageView, movie: Movie, size: PosterSize) {
         let noImage = UIImage(named: "video.slash")
@@ -29,9 +35,9 @@ class NukePosterFetchService: PosterFetchService {
     
     private func buildURL(posterPath: String, size: PosterSize) -> URL {
         var urlComponent = URLComponents()
-        urlComponent.scheme = Constants.api.kScheme
-        urlComponent.host = Constants.api.kBasePosterURL
-        urlComponent.path = "\(Constants.api.kBasePosterPath)\(self.resolveSize(size))\(posterPath)"
+        urlComponent.scheme = Api.kScheme
+        urlComponent.host = Api.kBasePosterURL
+        urlComponent.path = "\(Api.kBasePosterPath)\(self.resolveSize(size))\(posterPath)"
         guard let url = urlComponent.url else {
             fatalError("Cannot create url using")
         }

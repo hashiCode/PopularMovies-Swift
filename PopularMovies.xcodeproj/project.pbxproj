@@ -11,6 +11,7 @@
 		5BB82A3E09A9C356FF154E1D /* Pods_PopularMovies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14E7545739C1E6FBE68EC0A /* Pods_PopularMovies.framework */; };
 		7748B79ED532FA5C89DAAEEB /* Pods_PopularMovies_PopularMoviesUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 919920761BC526A3E86E87C4 /* Pods_PopularMovies_PopularMoviesUITests.framework */; };
 		FF0DAB9924B221BF00E8BB70 /* PopularMoviesViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0DAB9824B221BF00E8BB70 /* PopularMoviesViewTest.swift */; };
+		FF1F521B24CBD27D00B4F7AD /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1F521A24CBD27D00B4F7AD /* URLProtocolMock.swift */; };
 		FF3A728424B286D1002479BB /* RemoteMoviesServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3A728324B286D1002479BB /* RemoteMoviesServiceTest.swift */; };
 		FF3A728724B2888B002479BB /* ApiProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3A728624B2888B002479BB /* ApiProviderMock.swift */; };
 		FF3A728924B2A47D002479BB /* ApiSecret.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF3A728824B2A47D002479BB /* ApiSecret.plist */; };
@@ -47,6 +48,7 @@
 		FFED2FAD24B14D32009A61B7 /* MoviesCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2FAC24B14D32009A61B7 /* MoviesCoordinatorTest.swift */; };
 		FFED2FB024B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2FAF24B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift */; };
 		FFED2FB224B16138009A61B7 /* PopularMoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFED2FB124B16138009A61B7 /* PopularMoviesView.swift */; };
+		FFFD890324CCDD05004C9393 /* MoviesDBHttpProviderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFD890224CCDD05004C9393 /* MoviesDBHttpProviderTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,7 @@
 		D1A7972594F1CD865490FC77 /* Pods_PopularMoviesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PopularMoviesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6DB02723D31B7E6FF69D744 /* Pods-PopularMoviesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PopularMoviesTests.release.xcconfig"; path = "Target Support Files/Pods-PopularMoviesTests/Pods-PopularMoviesTests.release.xcconfig"; sourceTree = "<group>"; };
 		FF0DAB9824B221BF00E8BB70 /* PopularMoviesViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesViewTest.swift; sourceTree = "<group>"; };
+		FF1F521A24CBD27D00B4F7AD /* URLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		FF3A728324B286D1002479BB /* RemoteMoviesServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMoviesServiceTest.swift; sourceTree = "<group>"; };
 		FF3A728624B2888B002479BB /* ApiProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiProviderMock.swift; sourceTree = "<group>"; };
 		FF3A728824B2A47D002479BB /* ApiSecret.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiSecret.plist; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		FFED2FAC24B14D32009A61B7 /* MoviesCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCoordinatorTest.swift; sourceTree = "<group>"; };
 		FFED2FAF24B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTabBarViewControllerTest.swift; sourceTree = "<group>"; };
 		FFED2FB124B16138009A61B7 /* PopularMoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesView.swift; sourceTree = "<group>"; };
+		FFFD890224CCDD05004C9393 /* MoviesDBHttpProviderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesDBHttpProviderTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +198,7 @@
 		FF3A728224B26E12002479BB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				FFFD890124CCDCEE004C9393 /* Provider */,
 				FF3A728324B286D1002479BB /* RemoteMoviesServiceTest.swift */,
 			);
 			path = Services;
@@ -205,6 +210,7 @@
 				FF3A728624B2888B002479BB /* ApiProviderMock.swift */,
 				FFD5FB1E24B545E5004D582C /* MoviesServiceMock.swift */,
 				FF7F72C824BBC68600A77D25 /* PosterFetchServiceMock.swift */,
+				FF1F521A24CBD27D00B4F7AD /* URLProtocolMock.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -454,6 +460,14 @@
 				FFED2FAF24B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		FFFD890124CCDCEE004C9393 /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				FFFD890224CCDD05004C9393 /* MoviesDBHttpProviderTest.swift */,
+			);
+			path = Provider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -744,11 +758,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFFD890324CCDD05004C9393 /* MoviesDBHttpProviderTest.swift in Sources */,
 				FFD5FB1F24B545E5004D582C /* MoviesServiceMock.swift in Sources */,
 				FFED2FB024B150B5009A61B7 /* MoviesTabBarViewControllerTest.swift in Sources */,
 				FF3A728424B286D1002479BB /* RemoteMoviesServiceTest.swift in Sources */,
 				FFDFEF2B24B22AF3007229C9 /* PopularMoviesViewControllerTest.swift in Sources */,
 				FFD5FB1D24B54484004D582C /* PopularMoviesViewModelTest.swift in Sources */,
+				FF1F521B24CBD27D00B4F7AD /* URLProtocolMock.swift in Sources */,
 				FF3A728724B2888B002479BB /* ApiProviderMock.swift in Sources */,
 				FFED2FAD24B14D32009A61B7 /* MoviesCoordinatorTest.swift in Sources */,
 				FF7F72C924BBC68600A77D25 /* PosterFetchServiceMock.swift in Sources */,

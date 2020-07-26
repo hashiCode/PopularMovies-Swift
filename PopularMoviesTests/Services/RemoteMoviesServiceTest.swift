@@ -7,7 +7,6 @@
 
 import Quick
 import Nimble
-import Nimble_Snapshots
 @testable import PopularMovies
 
 class RemoteMoviesServiceTest: QuickSpec{
@@ -17,42 +16,79 @@ class RemoteMoviesServiceTest: QuickSpec{
         var apiProvider: ApiProviderMock!
         
         describe("RemoteMoviesService") {
-            
+
             beforeEach {
                 apiProvider = ApiProviderMock()
                 sut = RemoteMoviesService(provider: apiProvider)
             }
             
-            it("should return movies when success"){
-                var returnMovies = false
-                sut.getPopularMovies(page: 1) { (result) in
-                    
-                    switch result {
-                    case .success(let movies):
-                        returnMovies = !movies.isEmpty
-                        break
-                    case .failure( _):
-                        break
+            context("getPopularMovies") {
+            
+                it("should return movies when success"){
+                    var returnMovies = false
+                    sut.getPopularMovies(page: 1) { (result) in
+                        switch result {
+                        case .success( _):
+                            returnMovies = true
+                            break
+                        case .failure( _):
+                            fail("should not happen")
+                            break
+                        }
                     }
+                    expect(returnMovies).toEventually(beTrue())
                 }
-                expect(returnMovies).toEventually(beTrue())
+                
+                it("should return error when failure"){
+                    apiProvider.shouldReturnSuccess = false
+                    var returnedError = false
+                    sut.getPopularMovies(page: 1) { (result) in
+                        switch result {
+                        case .success( _):
+                            fail("should not happen")
+                        case .failure( _):
+                            returnedError = true
+                        }
+                    }
+                    expect(returnedError).toEventually(beTrue())
+                }
+                
             }
             
-            it("should return error when failure"){
-                apiProvider.shouldReturnSuccess = false
-                var returnedError = false
-                sut.getPopularMovies(page: 1) { (result) in
-                    switch result {
-                    case .success( _):
-                        fatalError("shuld not happen")
-                    case .failure( _):
-                        returnedError = true
+            context("searchMovies") {
+            
+                it("should return movies when success"){
+                    var returnMovies = false
+                    sut.searchMovies(page: 1, movieName: "movieName") { (result) in
+                        switch result {
+                        case .success( _):
+                            returnMovies = true
+                            break
+                        case .failure( _):
+                            fail("should not happen")
+                            break
+                        }
                     }
+                    expect(returnMovies).toEventually(beTrue())
                 }
-                expect(returnedError).toEventually(beTrue())
+                
+                it("should return error when failure"){
+                    apiProvider.shouldReturnSuccess = false
+                    var returnedError = false
+                    sut.searchMovies(page: 1, movieName: "movieName") { (result) in
+                        switch result {
+                        case .success( _):
+                            fail("should not happen")
+                        case .failure( _):
+                            returnedError = true
+                        }
+                    }
+                    expect(returnedError).toEventually(beTrue())
+                }
+                
             }
         }
         
     }
-
+    
 }

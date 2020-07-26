@@ -12,24 +12,8 @@ class ApiProviderMock: MoviesApiProvider {
     var shouldReturnSuccess = true
     var customError: Error?
     
-    func get(page: Int, completitionHandler: @escaping (MoviesApiProvider.Result) -> Void) {
-        if shouldReturnSuccess {
-            let movie = makeMovie(id: 1)
-            let jsonObject = [
-                "page" : page,
-                "total_results": 1,
-                "total_pages": 1,
-                "results" : [movie],
-                ] as [String : Any]
-            let data = try! JSONSerialization.data(withJSONObject: jsonObject)
-            completitionHandler(.success(data))
-        } else {
-            if let error = customError {
-                completitionHandler(.failure(error))
-            } else {
-                completitionHandler(.failure(URLError(.badServerResponse)))
-            }
-        }
+    func get(endpoint: Endpoint, parameters: [String: String], completitionHandler: @escaping (MoviesApiProvider.Result) -> Void) {
+        self.handleResponse(completitionHandler)
     }
     
     func makeMovie(id: Int) -> [String: Any] {
@@ -51,5 +35,24 @@ class ApiProviderMock: MoviesApiProvider {
         ]
     }
     
+    fileprivate func handleResponse(_ completitionHandler: @escaping (Result<Data, Error>) -> Void) {
+        if shouldReturnSuccess {
+            let movie = makeMovie(id: 1)
+            let jsonObject = [
+                "page" : 1,
+                "total_results": 1,
+                "total_pages": 1,
+                "results" : [movie],
+                ] as [String : Any]
+            let data = try! JSONSerialization.data(withJSONObject: jsonObject)
+            completitionHandler(.success(data))
+        } else {
+            if let error = customError {
+                completitionHandler(.failure(error))
+            } else {
+                completitionHandler(.failure(URLError(.badServerResponse)))
+            }
+        }
+    }
 
 }

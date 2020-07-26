@@ -20,7 +20,7 @@ class MoviesTabBarViewController: UITabBarController {
     }
     
     private func setupTabs() {
-        let moviesApiProvider = MoviesHTTPProvider(session: URLSession.shared)
+        let moviesApiProvider = MoviesDBHttpProvider(session: URLSession.shared)
         let moviesService = RemoteMoviesService(provider: moviesApiProvider)
         
         let popularMoviesViewController = PopularMoviesViewController(viewModel: PopularMoviesViewModel(service: moviesService), posterFetchService: NukePosterFetchService())
