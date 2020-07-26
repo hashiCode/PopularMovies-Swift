@@ -1,0 +1,7 @@
+language: swift
+os: osx
+osx_image: xcode11.6
+script:
+- xcodebuild clean build test -scheme PopularMovies -workspace PopularMovies.xcworkspace -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone SE (2nd generation),OS=13.6' CODE_SIGNING_REQUIRED=NO
+after_success:
+- bash <(curl -s https://codecov.io/bash) -J 'PopularMovies'
