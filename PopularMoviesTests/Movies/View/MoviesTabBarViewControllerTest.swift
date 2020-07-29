@@ -42,6 +42,8 @@ class MoviesTabBarViewControllerTest: XCTestCase {
         XCTAssertEqual(favoriteTabItem?.title, LocalizableConstants.kFavorites.localized())
         XCTAssertNotNil(favoriteTabItem?.image)
         XCTAssertNotNil(favoriteTabItem?.selectedImage)
+        
+        XCTAssertEqual(sut.navigationItem.backBarButtonItem!.title, "")
     }
 
 }

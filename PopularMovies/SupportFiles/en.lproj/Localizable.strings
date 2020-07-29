@@ -12,3 +12,7 @@
 "alert.error.title" = "Error";
 "alert.error.message" = "An error ocurred while fetching movies";
 "alert.error.action.tryAgain" = "Try again";
+
+"overview" = "Overview";
+"genres" = "Genres";
+"grade" = "Grade: %.2f";

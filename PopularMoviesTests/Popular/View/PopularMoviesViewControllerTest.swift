@@ -37,7 +37,7 @@ class PopularMoviesViewControllerTest: QuickSpec {
         var viewModel: PopularMoviesViewModelMock!
         var movieService: MoviesServiceMock!
         var posterService: PosterFetchServiceMock!
-        var window: UIWindow!
+        var navigationController: UINavigationController!
         
         describe("PopularMoviesViewController") {
             
@@ -46,8 +46,11 @@ class PopularMoviesViewControllerTest: QuickSpec {
                 posterService = PosterFetchServiceMock()
                 viewModel = PopularMoviesViewModelMock(service: movieService)
                 sut = PopularMoviesViewController(viewModel: viewModel, posterFetchService: posterService)
-                window = UIWindow()
-                window.addSubview(sut.view)
+                navigationController = UINavigationControllerMock(rootViewController: sut)
+                let _ = sut.view
+                let view = navigationController.view
+                let window = UIWindow()
+                window.addSubview(view!)
                 
             }
             
@@ -70,6 +73,7 @@ class PopularMoviesViewControllerTest: QuickSpec {
                     expect(collectionView.refreshControl?.actions(forTarget: sut.self, forControlEvent: .valueChanged)?.count).to(equal(1))
                     expect(collectionView.refreshControl?.actions(forTarget: sut.self, forControlEvent: .valueChanged)![0]).to(equal("refreshMovies"))
                 }
+                
                 
             }
             
@@ -98,6 +102,13 @@ class PopularMoviesViewControllerTest: QuickSpec {
                     sut.collectionView(sut.popularMoviesView.moviesCollection, willDisplay: MovieCollectionViewCell(), forItemAt: IndexPath(row: 0, section: 0))
                     expect(viewModel.getNextPopularMoviesCountCalls).to(equal(2))
                 }
+                
+                it("should push to detailview controller on didSelectItem") {
+                    let collectionView = sut.popularMoviesView.moviesCollection!
+                    sut.collectionView(collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+                    expect(navigationController.visibleViewController).to(beAKindOf(DetailViewController.self))
+                }
+                
             }
             
             context("Error") {
@@ -107,7 +118,6 @@ class PopularMoviesViewControllerTest: QuickSpec {
                     viewModel.getNextPopularMovies()
                     
                     expect(sut.presentedViewController).toEventually(beAKindOf(UIAlertController.self))
-                    
                 }
                 
             }

@@ -13,9 +13,9 @@ class RemoteMoviesService: MoviesService {
         case invalidData
     }
     
-    private let provider: MoviesApiProvider
+    private let provider: ApiProvider
 
-    init(provider: MoviesApiProvider) {
+    init(provider: ApiProvider) {
         self.provider = provider
     }
 

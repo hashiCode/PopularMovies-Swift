@@ -7,13 +7,24 @@
 import Foundation
 @testable import PopularMovies
 
-class ApiProviderMock: MoviesApiProvider {
+class ApiProviderMock: ApiProvider {
     
-    var shouldReturnSuccess = true
+    var movieRequestShouldReturnSuccess = true
+    var genreRequestShouldReturnSuccess = true
+    var genreRequestShouldReturnEmpty = false
     var customError: Error?
+    var wasCalled = false
     
-    func get(endpoint: Endpoint, parameters: [String: String], completitionHandler: @escaping (MoviesApiProvider.Result) -> Void) {
-        self.handleResponse(completitionHandler)
+    func get(endpoint: Endpoint, parameters: [String: String], completitionHandler: @escaping (ApiProvider.Result) -> Void) {
+        self.wasCalled = true
+        switch endpoint {
+        case .popular:
+            self.handleResponse(completitionHandler, type: endpoint, shouldReturnSuccess: movieRequestShouldReturnSuccess, error: customError)
+        case .search:
+            self.handleResponse(completitionHandler, type: endpoint, shouldReturnSuccess: movieRequestShouldReturnSuccess, error: customError)
+        case .genre:
+            self.handleResponse(completitionHandler, type: endpoint, shouldReturnSuccess: genreRequestShouldReturnSuccess, error: customError)
+        }
     }
     
     func makeMovie(id: Int) -> [String: Any] {
@@ -35,24 +46,42 @@ class ApiProviderMock: MoviesApiProvider {
         ]
     }
     
-    fileprivate func handleResponse(_ completitionHandler: @escaping (Result<Data, Error>) -> Void) {
+    fileprivate func handleResponse(_ completitionHandler: @escaping (Result<Data, Error>) -> Void, type: Endpoint, shouldReturnSuccess: Bool, error: Error?) {
         if shouldReturnSuccess {
-            let movie = makeMovie(id: 1)
-            let jsonObject = [
-                "page" : 1,
-                "total_results": 1,
-                "total_pages": 1,
-                "results" : [movie],
-                ] as [String : Any]
-            let data = try! JSONSerialization.data(withJSONObject: jsonObject)
+            var data: Data
+            switch type {
+            case .popular:
+                data = self.makeMovieData()
+            case .search:
+                data = self.makeMovieData()
+            case .genre:
+                data = self.makeGenresData()
+            }
             completitionHandler(.success(data))
         } else {
-            if let error = customError {
+            if let error = error {
                 completitionHandler(.failure(error))
             } else {
                 completitionHandler(.failure(URLError(.badServerResponse)))
             }
         }
     }
+    
+    private func makeGenresData() -> Data {
+        return DataStub.createRootGenreData(genreRequestShouldReturnEmpty)
+    }
+    
+    private func makeMovieData() -> Data {
+        let movie = makeMovie(id: 1)
+        let jsonObject = [
+            "page" : 1,
+            "total_results": 1,
+            "total_pages": 1,
+            "results" : [movie],
+            ] as [String : Any]
+        let data = try! JSONSerialization.data(withJSONObject: jsonObject)
+        return data
+    }
+    
 
 }

@@ -40,7 +40,7 @@ class RemoteMoviesServiceTest: QuickSpec{
                 }
                 
                 it("should return error when failure"){
-                    apiProvider.shouldReturnSuccess = false
+                    apiProvider.movieRequestShouldReturnSuccess = false
                     var returnedError = false
                     sut.getPopularMovies(page: 1) { (result) in
                         switch result {
@@ -73,7 +73,7 @@ class RemoteMoviesServiceTest: QuickSpec{
                 }
                 
                 it("should return error when failure"){
-                    apiProvider.shouldReturnSuccess = false
+                    apiProvider.movieRequestShouldReturnSuccess = false
                     var returnedError = false
                     sut.searchMovies(page: 1, movieName: "movieName") { (result) in
                         switch result {

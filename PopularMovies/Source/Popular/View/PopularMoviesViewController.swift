@@ -72,6 +72,13 @@ extension PopularMoviesViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let navigationController = self.navigationController else { fatalError("expected to have navigationController") }
+        let movie = self.viewModel.movies[indexPath.row]
+        let detailCoordinator = DetailViewCoordinator(navigationController: navigationController, movie: movie)
+        detailCoordinator.start()
+    }
+    
 }
 
 extension PopularMoviesViewController: UISearchBarDelegate {
