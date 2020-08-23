@@ -15,9 +15,15 @@ protocol DetailViewModelContract {
     
     func getMovieGenres(genresCallback: @escaping MoviesGenres)
     
+    func favoriteMovie(callback: @escaping () -> Void)
+    
+    func isMovieFavorite() -> Bool
+    
 }
 
 class DetailViewModel: DetailViewModelContract {
+    
+    
     
     private(set) var movie: Movie
     private let genreCache: GenreCache
@@ -34,6 +40,16 @@ class DetailViewModel: DetailViewModelContract {
             }
             genresCallback(genresName.joined(separator: ", "))
         }
+    }
+    
+    func favoriteMovie(callback: @escaping () -> Void) {
+        
+        callback()
+    }
+    
+    func isMovieFavorite() -> Bool {
+        //TODO
+        return false
     }
 
 }

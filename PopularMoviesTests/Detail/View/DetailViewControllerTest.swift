@@ -11,12 +11,18 @@ import Nimble
 
 class DetailViewModelSpy: DetailViewModel {
     
-    private(set)var getMovieGenresWasCalled = false
+    private(set) var getMovieGenresWasCalled = false
+    private(set) var favoriteMovieWasCalled = false
     static let genres = "action, adventure"
     
     override func getMovieGenres(genresCallback: @escaping DetailViewModel.MoviesGenres) {
         getMovieGenresWasCalled = true
         genresCallback(DetailViewModelSpy.genres)
+    }
+    
+    override func favoriteMovie(callback: @escaping () -> Void) {
+        favoriteMovieWasCalled = true
+        super.favoriteMovie(callback: callback)
     }
 }
 
@@ -27,16 +33,14 @@ class DetailViewControllerTest: QuickSpec {
             
             var sut: DetailViewController!
             var posterFetchService: PosterFetchServiceMock!
+            var viewModel: DetailViewModelSpy!
             let movieStub = Movie.createMovieStub()
-            var window: UIWindow!
-            
             
             beforeEach {
                 posterFetchService = PosterFetchServiceMock()
-                let viewModel = DetailViewModelSpy(movie: movieStub, genreCache: GenreCacheMock())
+                viewModel = DetailViewModelSpy(movie: movieStub, genreCache: GenreCacheMock())
                 sut = DetailViewController(viewModel: viewModel, posterFetchService: posterFetchService)
-                window = UIWindow()
-                window.addSubview(sut.view)
+                _ = sut.view
             }
             
             it("should load correctly"){
@@ -52,8 +56,17 @@ class DetailViewControllerTest: QuickSpec {
                     expect(sut.genreListLabel.text).to(equal(DetailViewModelSpy.genres))
                     done()
                 }
+            }
+            
+            it("should call favorite movie when right item is called") {
+                guard let rightButton = sut.navigationItem.rightBarButtonItem else {
+                    fail("should have right button")
+                    return
+                }
                 
+                _ = rightButton.target?.perform(rightButton.action, with: nil)
                 
+                expect(viewModel.favoriteMovieWasCalled).to(beTrue())
             }
             
         }

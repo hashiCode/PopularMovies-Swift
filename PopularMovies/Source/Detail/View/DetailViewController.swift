@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class DetailViewController: UIViewController {
     
@@ -36,8 +37,39 @@ class DetailViewController: UIViewController {
         self.viewContent()
     }
     
+    
+
+}
+
+extension DetailViewController {
+    
     private func setupNavigationBar() {
         self.title = self.viewModel.movie.title
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favoriteMovie))
+    }
+    
+    @objc
+    private func favoriteMovie() {
+        let isMovieFavorite = self.viewModel.isMovieFavorite()
+        self.viewModel.favoriteMovie { [weak self] in
+            guard let self = self else { return }
+            if !isMovieFavorite {
+                self.doFavoriteAnimation()
+            }
+            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: isMovieFavorite ? "star" : "star.fill")
+        }
+    }
+    
+    private func doFavoriteAnimation() {
+        let animationView = AnimationView.init(name: "156-star-blast")
+        animationView.frame = view.frame
+        animationView.contentMode = .scaleAspectFill
+        
+        view.addSubview(animationView)
+        animationView.play { (_) in
+            animationView.removeFromSuperview()
+        }
     }
     
     private func viewContent(){
@@ -54,5 +86,4 @@ class DetailViewController: UIViewController {
             }
         }
     }
-
 }

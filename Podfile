@@ -7,6 +7,7 @@ target 'PopularMovies' do
 
   # Pods for PopularMovies
   pod 'Nuke'
+  pod 'lottie-ios'
   
   target 'PopularMoviesTests' do
     inherit! :search_paths
