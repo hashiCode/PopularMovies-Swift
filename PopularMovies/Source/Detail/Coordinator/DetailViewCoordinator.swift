@@ -18,7 +18,7 @@ class DetailViewCoordinator: Coordinator {
     }
     
     func start() {
-        let viewModel = DetailViewModel(movie: self.movie, genreCache: GenreCache.shared)
+        let viewModel = DetailViewModel(movie: self.movie, genreCache: GenreCache.shared, movieService: MoviesServiceImpl(provider: MoviesDBHttpProvider(session: URLSession.shared)))
         let viewController = DetailViewController(viewModel: viewModel, posterFetchService: NukePosterFetchService())
         self.navigationController.pushViewController(viewController, animated: true)
     }

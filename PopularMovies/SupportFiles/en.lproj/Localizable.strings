@@ -12,6 +12,8 @@
 "alert.error.title" = "Error";
 "alert.error.message" = "An error ocurred while fetching movies";
 "alert.error.action.tryAgain" = "Try again";
+"alert.error.alreadyPersisted" = "The movie is already favorited. Please reopen this page again.";
+"alert.error.action.ok" = "Ok";
 
 "overview" = "Overview";
 "genres" = "Genres";

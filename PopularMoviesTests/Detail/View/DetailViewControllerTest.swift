@@ -12,7 +12,7 @@ import Nimble
 class DetailViewModelSpy: DetailViewModel {
     
     private(set) var getMovieGenresWasCalled = false
-    private(set) var favoriteMovieWasCalled = false
+    private(set) var handleFavoriteMovieWasCalled = false
     static let genres = "action, adventure"
     
     override func getMovieGenres(genresCallback: @escaping DetailViewModel.MoviesGenres) {
@@ -20,9 +20,14 @@ class DetailViewModelSpy: DetailViewModel {
         genresCallback(DetailViewModelSpy.genres)
     }
     
-    override func favoriteMovie(callback: @escaping () -> Void) {
-        favoriteMovieWasCalled = true
-        super.favoriteMovie(callback: callback)
+    var shouldThrowError = false
+    override func handleFavoriteMovie(callback: @escaping (Result<Movie, Error>) -> Void) {
+        handleFavoriteMovieWasCalled = true
+        if(shouldThrowError) {
+            callback(.success(self.movie))
+        } else {
+            callback(.failure(MoviesServiceError.aleradyPersisted))
+        }
     }
 }
 
@@ -35,10 +40,12 @@ class DetailViewControllerTest: QuickSpec {
             var posterFetchService: PosterFetchServiceMock!
             var viewModel: DetailViewModelSpy!
             let movieStub = Movie.createMovieStub()
+            var movieService: MoviesServiceMock!
             
             beforeEach {
                 posterFetchService = PosterFetchServiceMock()
-                viewModel = DetailViewModelSpy(movie: movieStub, genreCache: GenreCacheMock())
+                movieService = MoviesServiceMock()
+                viewModel = DetailViewModelSpy(movie: movieStub, genreCache: GenreCacheMock(), movieService: movieService)
                 sut = DetailViewController(viewModel: viewModel, posterFetchService: posterFetchService)
                 _ = sut.view
             }
@@ -58,16 +65,32 @@ class DetailViewControllerTest: QuickSpec {
                 }
             }
             
-            it("should call favorite movie when right item is called") {
-                guard let rightButton = sut.navigationItem.rightBarButtonItem else {
-                    fail("should have right button")
-                    return
+            context("should handle favorite movie correctly") {
+                it("should call favorite movie when right item is called") {
+                    guard let rightButton = sut.navigationItem.rightBarButtonItem else {
+                        fail("should have right button")
+                        return
+                    }
+                    
+                    _ = rightButton.target?.perform(rightButton.action, with: nil)
+                    expect(viewModel.handleFavoriteMovieWasCalled).toEventually(beTrue())
                 }
                 
-                _ = rightButton.target?.perform(rightButton.action, with: nil)
-                
-                expect(viewModel.favoriteMovieWasCalled).to(beTrue())
+                it("should show alert when an error ocurren on handleFavorite") {
+                    guard let rightButton = sut.navigationItem.rightBarButtonItem else {
+                        fail("should have right button")
+                        return
+                    }
+                    viewModel.shouldThrowError = true
+                    _ = rightButton.target?.perform(rightButton.action, with: nil)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        expect(sut.presentedViewController).toEventually(beAKindOf(UIAlertController.self))
+                    }
+                    
+                }
             }
+            
             
         }
     }

@@ -46,19 +46,43 @@ extension DetailViewController {
     private func setupNavigationBar() {
         self.title = self.viewModel.movie.title
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(favoriteMovie))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.getFavoriteUIImage(), style: .plain, target: self, action: #selector(handleFavoriteMovie))
     }
     
     @objc
-    private func favoriteMovie() {
+    private func handleFavoriteMovie() {
         let isMovieFavorite = self.viewModel.isMovieFavorite()
-        self.viewModel.favoriteMovie { [weak self] in
+        self.viewModel.handleFavoriteMovie { [weak self] result in
             guard let self = self else { return }
-            if !isMovieFavorite {
-                self.doFavoriteAnimation()
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    if !isMovieFavorite {
+                        self.doFavoriteAnimation()
+                    }
+                    self.navigationItem.rightBarButtonItem?.image = self.getFavoriteUIImage()
+                }
+            case .failure(_):
+                DispatchQueue.main.async {
+                    let alert = self.createAlert()
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
-            self.navigationItem.rightBarButtonItem?.image = UIImage(systemName: isMovieFavorite ? "star" : "star.fill")
+            
         }
+    }
+    
+    private func createAlert() -> UIAlertController {
+        let alert = UIAlertController(title: LocalizableConstants.kAlertTitle.localized(), message: LocalizableConstants.kAlreadyPersisted.localized(), preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: LocalizableConstants.kOk.localized(), style: .cancel)
+        alert.addAction(dismissAction)
+        return alert
+    }
+    
+    private func getFavoriteUIImage() -> UIImage {
+        let isMovieFavorite = self.viewModel.isMovieFavorite()
+        let sysImage = isMovieFavorite ? "star.fill" : "star"
+        return UIImage(systemName: sysImage)!
     }
     
     private func doFavoriteAnimation() {

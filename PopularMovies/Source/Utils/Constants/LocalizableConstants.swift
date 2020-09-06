@@ -13,6 +13,8 @@ struct LocalizableConstants {
     static let kAlertTitle = "alert.error.title"
     static let kAlertMessage = "alert.error.message"
     static let kAlertTryAgainAction = "alert.error.action.tryAgain"
+    static let kAlreadyPersisted = "alert.error.alreadyPersisted"
+    static let kOk = "alert.error.action.ok"
     
     static let kOverview = "overview"
     static let kGrade = "grade"

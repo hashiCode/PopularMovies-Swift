@@ -40,7 +40,7 @@ class MoviesDBHttpProviderTest: QuickSpec {
                 }
                 
                 it("should return error on failure") {
-                    URLProtocolMock.responseStub = URLReponseStub(data: nil, error: RemoteMoviesService.Error.invalidData, response: nil)
+                    URLProtocolMock.responseStub = URLReponseStub(data: nil, error: MoviesServiceError.invalidData, response: nil)
                     var returnedError = false
                     sut.get(endpoint: .popular, parameters: [Parameters.page : "1"]) { (reponse) in
                         switch reponse {
@@ -78,7 +78,7 @@ class MoviesDBHttpProviderTest: QuickSpec {
                 }
 
                 it("should return error on failure") {
-                    URLProtocolMock.responseStub = URLReponseStub(data: nil, error: RemoteMoviesService.Error.invalidData, response: nil)
+                    URLProtocolMock.responseStub = URLReponseStub(data: nil, error: MoviesServiceError.invalidData, response: nil)
                     var returnedError = false
                     sut.get(endpoint: .genre, parameters: [Parameters.page : "1", Parameters.query: "movieName"]) { (reponse) in
                         switch reponse {
@@ -110,7 +110,7 @@ class MoviesDBHttpProviderTest: QuickSpec {
                }
 
                it("should return error on failure") {
-                   URLProtocolMock.responseStub = URLReponseStub(data: nil, error: RemoteMoviesService.Error.invalidData, response: nil)
+                   URLProtocolMock.responseStub = URLReponseStub(data: nil, error: MoviesServiceError.invalidData, response: nil)
                    var returnedError = false
                    sut.get(endpoint: .search, parameters: [Parameters.page : "1", Parameters.query: "movieName"]) { (reponse) in
                        switch reponse {

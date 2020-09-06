@@ -16,6 +16,10 @@ class MoviesServiceMock: MoviesService {
 
     var shouldReturnMovies = true
     var shouldReturnEmmpty = false
+    
+    private(set) var favoriteMovieWasCalled = false
+    private(set) var unfavoriteMovieWasCalled = false
+    var findMovieStub: MovieEntity?
 
     func getPopularMovies(page: Int, completion: @escaping (MoviesService.Result) -> Void) {
         handleCompletition(completion)
@@ -23,6 +27,18 @@ class MoviesServiceMock: MoviesService {
 
     func searchMovies(page: Int, movieName: String, completion: @escaping (MoviesService.Result) -> Void) {
         handleCompletition(completion)
+    }
+    
+    func favoriteMovie(movie: Movie) {
+        favoriteMovieWasCalled = true
+    }
+    
+    func unfavoriteMovie(movie: Movie) {
+        unfavoriteMovieWasCalled = true
+    }
+    
+    func findMovie(movieId: Int) -> MovieEntity? {
+        return findMovieStub
     }
     
     private func handleCompletition(_ completion: @escaping ((MoviesService.Result) -> Void)) {

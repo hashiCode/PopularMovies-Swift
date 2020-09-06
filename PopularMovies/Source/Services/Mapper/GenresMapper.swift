@@ -15,7 +15,7 @@ final class GenresMapper {
     
     static func map(_ data: Data) throws -> [Genre] {
         guard let root = try? JSONDecoder().decode(Root.self, from: data) else {
-            throw RemoteMoviesService.Error.invalidData
+            throw MoviesServiceError.invalidData
         }
 
         return root.genres

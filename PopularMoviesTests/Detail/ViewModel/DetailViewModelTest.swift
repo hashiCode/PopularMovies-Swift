@@ -16,10 +16,12 @@ class DetailViewModelTest: QuickSpec {
         describe("DetailViewModel") {
             var sut: DetailViewModel!
             var genreCacheMock: GenreCacheMock!
+            var movieService: MoviesServiceMock!
             
             beforeEach {
                 genreCacheMock = GenreCacheMock()
-                sut = DetailViewModel(movie: Movie.createMovieStub(), genreCache: genreCacheMock)
+                movieService = MoviesServiceMock()
+                sut = DetailViewModel(movie: Movie.createMovieStub(), genreCache: genreCacheMock, movieService: movieService)
             }
             
             it("should get genres name") {
@@ -36,6 +38,31 @@ class DetailViewModelTest: QuickSpec {
                         done()
                     }
                 }
+            }
+            
+            context("should handle favorite movie correctly"){
+                
+                it("when movie is not favorite") {
+                    waitUntil { done in
+                        sut.handleFavoriteMovie { result in
+                            expect(movieService.favoriteMovieWasCalled).to(beTrue())
+                            done()
+                        }
+                    }
+                    
+                }
+                
+                it("when movie is favorite") {
+                    movieService.findMovieStub = MovieEntity()
+                    waitUntil { done in
+                        sut.handleFavoriteMovie { result in
+                            expect(movieService.favoriteMovieWasCalled).to(beFalse())
+                            done()
+                        }
+                    }
+                    
+                }
+                
             }
             
         }
