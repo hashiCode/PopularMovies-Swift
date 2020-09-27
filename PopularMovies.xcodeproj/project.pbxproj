@@ -19,6 +19,7 @@
 		FF3A728924B2A47D002479BB /* ApiSecret.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF3A728824B2A47D002479BB /* ApiSecret.plist */; };
 		FF7F72C924BBC68600A77D25 /* PosterFetchServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7F72C824BBC68600A77D25 /* PosterFetchServiceMock.swift */; };
 		FF94887524F31C440076E431 /* 156-star-blast.json in Resources */ = {isa = PBXBuildFile; fileRef = FF94887424F31C440076E431 /* 156-star-blast.json */; };
+		FF9D61DC251D6F1300CEC116 /* FavoriteMoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9D61DB251D6F1300CEC116 /* FavoriteMoviesViewModel.swift */; };
 		FFBF78AD24BA690000C2A6F9 /* SpinnerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBF78AC24BA690000C2A6F9 /* SpinnerViewController.swift */; };
 		FFD5FB1A24B54132004D582C /* PopularMoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5FB1924B54132004D582C /* PopularMoviesViewModel.swift */; };
 		FFD5FB1D24B54484004D582C /* PopularMoviesViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD5FB1C24B54484004D582C /* PopularMoviesViewModelTest.swift */; };
@@ -108,6 +109,7 @@
 		FF3A728824B2A47D002479BB /* ApiSecret.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiSecret.plist; sourceTree = "<group>"; };
 		FF7F72C824BBC68600A77D25 /* PosterFetchServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterFetchServiceMock.swift; sourceTree = "<group>"; };
 		FF94887424F31C440076E431 /* 156-star-blast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "156-star-blast.json"; sourceTree = "<group>"; };
+		FF9D61DB251D6F1300CEC116 /* FavoriteMoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMoviesViewModel.swift; sourceTree = "<group>"; };
 		FFBF78AC24BA690000C2A6F9 /* SpinnerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerViewController.swift; sourceTree = "<group>"; };
 		FFD5FB1924B54132004D582C /* PopularMoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesViewModel.swift; sourceTree = "<group>"; };
 		FFD5FB1C24B54484004D582C /* PopularMoviesViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesViewModelTest.swift; sourceTree = "<group>"; };
@@ -269,6 +271,14 @@
 				FFF07C8124D217D700A8C911 /* GenreCacheMock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		FF9D61DA251D6EF900CEC116 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FF9D61DB251D6F1300CEC116 /* FavoriteMoviesViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		FFD5FB1824B540FD004D582C /* ViewModel */ = {
@@ -557,6 +567,7 @@
 		FFED2F8F24B138A6009A61B7 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
+				FF9D61DA251D6EF900CEC116 /* ViewModel */,
 				FFED2F9224B138C5009A61B7 /* View */,
 			);
 			path = Favorite;
@@ -714,7 +725,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					FFED2F4E24B133DB009A61B7 = {
 						CreatedOnToolsVersion = 11.5;
@@ -930,6 +941,7 @@
 				FFED2F9124B138BB009A61B7 /* FavoriteMoviesViewController.swift in Sources */,
 				FFDFF67524BBB2A000A5C9A9 /* PosterFetchService.swift in Sources */,
 				FFED2F5524B133DB009A61B7 /* SceneDelegate.swift in Sources */,
+				FF9D61DC251D6F1300CEC116 /* FavoriteMoviesViewModel.swift in Sources */,
 				FFDD29F024CE19D6003EB018 /* DetailViewCoordinator.swift in Sources */,
 				FFDD2A0624CE4556003EB018 /* GenreLoader.swift in Sources */,
 				FFDFEF2E24B230ED007229C9 /* MoviesService.swift in Sources */,
@@ -1039,6 +1051,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1100,6 +1113,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

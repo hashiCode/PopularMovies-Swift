@@ -125,13 +125,13 @@ class MoviesDBHttpProviderTest: QuickSpec {
                }
 
                it("should fail when passing invalid parameters") {
-                   expect {
+                    expect(expression: {
                        sut.get(endpoint: .search, parameters: [Parameters.page : "1", "querys": "movieName"]) { (reponse) in }
-                   }.to(throwAssertion())
+                    }).to(throwAssertion())
 
-                   expect {
+                    expect(expression: {
                        sut.get(endpoint: .search, parameters: ["pages" : "1", Parameters.query: "movieName"]) { (reponse) in }
-                   }.to(throwAssertion())
+                    }).to(throwAssertion())
                }
                 
             }

@@ -105,7 +105,9 @@ class MoviesServiceImplTest: QuickSpec{
                     let movie = Movie.createMovieStub()
                     try! sut.favoriteMovie(movie: movie)
                     
-                    expect { try sut.favoriteMovie(movie: movie) }.to(throwError())
+                    expect(expression: {
+                        try sut.favoriteMovie(movie: movie)
+                    }).to(throwError())
                     
                 }
                 
@@ -145,6 +147,22 @@ class MoviesServiceImplTest: QuickSpec{
                     
                     let result = sut.findMovie(movieId: movie.id)
                     expect(result).to(beNil())
+                }
+            }
+            
+            context("findAllFavoriteMovies") {
+                it("should return empty when don't have favorite persisted"){
+                    
+                    let result = sut.findAllFavoriteMovies()
+                    expect(result.count).to(equal(0))
+                }
+                
+                it("should return all favorite"){
+                    let movie = Movie.createMovieStub()
+                    self.persistMovie(movie: movie)
+                    
+                    let result = sut.findAllFavoriteMovies()
+                    expect(result.count).to(equal(1))
                 }
             }
         }

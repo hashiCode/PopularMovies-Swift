@@ -95,6 +95,19 @@ class MoviesServiceImpl: MoviesService {
         return nil
     }
     
+    func findAllFavoriteMovies() -> [MovieEntity] {
+        let context = self.getContext()
+        let request: NSFetchRequest<MovieEntity> = MovieEntity.fetchRequest()
+        
+        do {
+            let result = try context.fetch(request)
+            return result
+        } catch  {
+            print("an error ocurred on findAllMovies \(error)")
+        }
+        return []
+    }
+    
     private func getContext() -> NSManagedObjectContext {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             fatalError("should")

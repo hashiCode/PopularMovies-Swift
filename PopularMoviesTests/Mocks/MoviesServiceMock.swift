@@ -41,6 +41,10 @@ class MoviesServiceMock: MoviesService {
         return findMovieStub
     }
     
+    func findAllFavoriteMovies() -> [MovieEntity] {
+        return []
+    }
+    
     private func handleCompletition(_ completion: @escaping ((MoviesService.Result) -> Void)) {
         if shouldReturnMovies {
             if shouldReturnEmmpty {

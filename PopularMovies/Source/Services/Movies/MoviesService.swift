@@ -24,5 +24,7 @@ protocol MoviesService {
     func unfavoriteMovie(movie: Movie)
     
     func findMovie(movieId: Int) -> MovieEntity?
+    
+    func findAllFavoriteMovies() -> [MovieEntity]
 
 }

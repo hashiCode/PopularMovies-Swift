@@ -5,13 +5,13 @@ PODS:
   - iOSSnapshotTestCase/SwiftSupport (6.2.0):
     - iOSSnapshotTestCase/Core
   - lottie-ios (3.1.8)
-  - Nimble (8.1.1)
+  - Nimble (8.1.2)
   - Nimble-Snapshots (8.2.1):
     - Nimble-Snapshots/Core (= 8.2.1)
   - Nimble-Snapshots/Core (8.2.1):
     - iOSSnapshotTestCase (~> 6.0)
     - Nimble (~> 8.0)
-  - Nuke (9.0.0)
+  - Nuke (9.1.2)
   - Quick (3.0.0)
 
 DEPENDENCIES:
@@ -33,9 +33,9 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   iOSSnapshotTestCase: 9ab44cb5aa62b84d31847f40680112e15ec579a6
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
-  Nimble: 5f8a2fb6fa343a7242dfdd9d42f7267419d464b2
+  Nimble: 3864815b4703c7ebffba875973c70e854489fbae
   Nimble-Snapshots: 3a4750d83752625c8ebfdc588da105303ee2201e
-  Nuke: 4390bfb0fcde6aecf314f854439d03914ee7c604
+  Nuke: dd2e6be6a34c042a7861e190632781d11f253026
   Quick: 6d9559f40647bc4d510103842ef2fdd882d753e2
 
 PODFILE CHECKSUM: 8a45295184938ef2519fa1b641930dd8aee6e917

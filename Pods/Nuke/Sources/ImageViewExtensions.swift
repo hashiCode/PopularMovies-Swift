@@ -6,6 +6,7 @@ import Foundation
 
 #if !os(macOS)
 import UIKit.UIImage
+import UIKit.UIColor
 /// Alias for `UIImage`.
 public typealias PlatformImage = UIImage
 #else
@@ -200,6 +201,28 @@ public struct ImageLoadingOptions {
         }
     }
 
+    /// Tint colors to be used for each image type (placeholder, success,
+    /// failure). `nil`  by default (don't change tint color or rendering mode).
+    public var tintColors: TintColors?
+
+    /// Custom tint color to be used for each image type (placeholder, success,
+    /// failure).
+    public struct TintColors {
+        /// Tint color to be used for the loaded image.
+        public var success: UIColor?
+        /// Tint color to be used when displaying a `failureImage`.
+        public var failure: UIColor?
+        /// Tint color to be used when displaying a `placeholder`.
+        public var placeholder: UIColor?
+
+        /// - parameter success: A tint color to be used with a loaded image.
+        /// - parameter failure: A tint color to be used with a `failureImage`.
+        /// - parameter placeholder: A tint color to be used with a `placeholder`.
+        public init(success: UIColor?, failure: UIColor?, placeholder: UIColor?) {
+            self.success = success; self.failure = failure; self.placeholder = placeholder
+        }
+    }
+
     #endif
 
     #if os(iOS) || os(tvOS)
@@ -215,12 +238,13 @@ public struct ImageLoadingOptions {
     /// performed when displaying a failure image. `nil` by default.
     /// - parameter contentModes: Content modes to be used for each image type
     /// (placeholder, success, failure). `nil` by default (don't change content mode).
-    public init(placeholder: UIImage? = nil, transition: Transition? = nil, failureImage: UIImage? = nil, failureImageTransition: Transition? = nil, contentModes: ContentModes? = nil) {
+    public init(placeholder: UIImage? = nil, transition: Transition? = nil, failureImage: UIImage? = nil, failureImageTransition: Transition? = nil, contentModes: ContentModes? = nil, tintColors: TintColors? = nil) {
         self.placeholder = placeholder
         self.transition = transition
         self.failureImage = failureImage
         self.failureImageTransition = failureImageTransition
         self.contentModes = contentModes
+        self.tintColors = tintColors
     }
 
     #elseif os(macOS)
@@ -308,8 +332,6 @@ public struct ImageLoadingOptions {
 /// however as it stands today `ImageViewController` is just a helper class,
 /// making it public wouldn't expose any additional functionality to the users.
 private final class ImageViewController {
-    // Ideally should be `unowned` but can't because of the Swift bug
-    // https://bugs.swift.org/browse/SR-7369
     private weak var imageView: ImageDisplayingView?
     private var task: ImageTask?
 
@@ -338,7 +360,7 @@ private final class ImageViewController {
 
     // MARK: - Loading Images
 
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func loadImage(with request: ImageRequest,
                    options: ImageLoadingOptions,
                    progress progressHandler: ImageTask.ProgressHandler? = nil,
@@ -370,13 +392,17 @@ private final class ImageViewController {
         }
 
         // Display a placeholder.
-        if let placeholder = options.placeholder {
-            imageView.nuke_display(image: placeholder)
+        if var placeholder = options.placeholder {
             #if os(iOS) || os(tvOS)
+            if let tintColor = options.tintColors?.placeholder {
+                placeholder = placeholder.withRenderingMode(.alwaysTemplate)
+                imageView.tintColor = tintColor
+            }
             if let contentMode = options.contentModes?.placeholder {
                 imageView.contentMode = contentMode
             }
             #endif
+            imageView.nuke_display(image: placeholder)
         } else if options.isPrepareForReuseEnabled {
             imageView.nuke_display(image: nil) // Remove previously displayed images (if any)
         }
@@ -417,22 +443,30 @@ private final class ImageViewController {
     private func handle(result: Result<ImageResponse, ImagePipeline.Error>, fromMemCache: Bool, options: ImageLoadingOptions) {
         switch result {
         case let .success(response):
-            display(response.image, options.transition, options.alwaysTransition, fromMemCache, options.contentModes?.success)
+            display(response.image, options.transition, options.alwaysTransition, fromMemCache, options.contentModes?.success, options.tintColors?.success)
         case .failure:
             if let failureImage = options.failureImage {
-                display(failureImage, options.failureImageTransition, options.alwaysTransition, fromMemCache, options.contentModes?.failure)
+                display(failureImage, options.failureImageTransition, options.alwaysTransition, fromMemCache, options.contentModes?.failure, options.tintColors?.failure)
             }
         }
         self.task = nil
     }
 
     private func handle(partialImage response: ImageResponse, options: ImageLoadingOptions) {
-        display(response.image, options.transition, options.alwaysTransition, false, options.contentModes?.success)
+        display(response.image, options.transition, options.alwaysTransition, false, options.contentModes?.success, options.tintColors?.success)
     }
 
-    private func display(_ image: UIImage, _ transition: ImageLoadingOptions.Transition?, _ alwaysTransition: Bool, _ fromMemCache: Bool, _ newContentMode: UIView.ContentMode?) {
+    // swiftlint:disable:next function_parameter_count
+    private func display(_ image: UIImage, _ transition: ImageLoadingOptions.Transition?, _ alwaysTransition: Bool, _ fromMemCache: Bool, _ newContentMode: UIView.ContentMode?, _ newTintColor: UIColor?) {
         guard let imageView = imageView else {
             return
+        }
+
+        var image = image
+
+        if let newTintColor = newTintColor {
+            image = image.withRenderingMode(.alwaysTemplate)
+            imageView.tintColor = newTintColor
         }
 
         if !fromMemCache || alwaysTransition, let transition = transition {
